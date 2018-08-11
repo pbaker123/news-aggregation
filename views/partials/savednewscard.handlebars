@@ -1,0 +1,17 @@
+<div class="card m-2" style="width: 21rem;">
+	<h5 class="card-header text-white bg-info">
+		<a href="{{url}} target="_blank"">
+			{{title}}
+		</a>
+	</h5>
+	<div class="card-body">
+    <p class="card-text">
+    	{{summary}}
+    </p>
+  </div>
+  <div class="card-footer text-muted text-center">
+    <button type="button" class="btn btn-outline-danger btn-sm align-bottom m-2 unsave" data-id="{{_id}}">Unsave Article</button>
+    <button type="button" class="btn btn-outline-info btn-sm align-bottom m-2 notes" data-toggle="modal" data-target="#notes" data-id="{{_id}}" data-title="{{title}}">Article Notes</button>
+  </div>
+</div>
+{{> modal }}

@@ -1,0 +1,21 @@
+<div class="card m-2" style="width: 21rem;">
+	<h5 class="card-header text-white bg-info">
+		<a href="{{url}} target="_blank"">
+			{{title}}
+		</a>
+		
+	</h5>
+	<div class="card-body">
+    <p class="card-text">
+    	{{summary}}
+    </p>
+  </div>
+  <div class="card-footer text-muted text-center">
+    {{#if saved}}
+			<span class="badge badge-pill badge-success">Saved</span>
+		{{/if}}
+    {{#if unsaved}}
+    	<button type="button" class="btn btn-outline-info btn-sm save" data-id="{{_id}}">Save Article</button>
+  	{{/if}}
+  </div>
+</div>

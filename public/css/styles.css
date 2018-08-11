@@ -1,0 +1,17 @@
+.jumbotron {
+	background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url("https://2.bp.blogspot.com/-MAnpCj_-o4c/WoRHWYs1hiI/AAAAAAAAD1w/jIZ9cD-770Q3x54V-K3FkTdCov20FaCtQCLcBGAs/s1600/Freetime-pixabay-Ben_Kerckx.jpg") no-repeat;
+	background-size: cover;
+	background-position: right bottom;
+}
+
+a:link, a:visited, a:hover, a:active {
+    color: white;
+    text-decoration: none;
+}
+
+svg path {
+  will-change: auto;
+  stroke-width: 20px;
+  stroke-miterlimit: round;
+  transition: stroke-dashoffset 850ms ease-in-out;
+}
