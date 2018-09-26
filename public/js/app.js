@@ -3,34 +3,36 @@ var intervalId;
 
 function scrape() {
   number = 5;
-	$.ajax("/scrape", {
-		type: "GET"
-	}).then(function() {
-		$(".scrape").html("Processing... 5");
-		clearInterval(intervalId);
-		intervalId = setInterval(function() {decrement(".scrape")}, 1000);
-		setTimeout(function() {window.location.href = "/";}, 5000);
-	});
+	$
+    .ajax("/scrape", {
+		  type: "GET"
+	  })
+    .then(() => {
+		  $(".scrape").html("Processing... 5");
+		  countdown(".scrape");
+	  });
 };
 
 function purge() {
-  console.log("clicked")
   number = 4;
-  $.ajax("/delete", {
-    type: "GET"
-  })
-    console.log("purging")
-    $(".purge").html("Processing... 4");
-    clearInterval(intervalId);
-    intervalId = setInterval(function() {decrement(".purge")}, 1000);
-    setTimeout(function() {window.location.href = "/";}, 2000);
-
+  $
+    .ajax("/delete", {
+      type: "DELETE"
+    })
+      $(".purge").html("Processing... 4");
+      countdown(".purge");
 };
 
 function decrement(type) {
 	number--;
 	$(type).html("Processing... " + number);
 };
+
+function countdown(id) {
+  clearInterval(intervalId);
+  intervalId = setInterval(function() {decrement(id)}, 1000);
+  setTimeout(function() {window.location.href = "/";}, 5000);
+}
 
 function save(id) {
 	var update = {
@@ -101,11 +103,10 @@ function submitNote(id) {
 
 function deleteNote(id) {
   $.ajax("/deletenote/" + id, {
-    type: "GET"
-  }).then(function(dbNotes) {
-    $("#" + id ).remove()
-  });
-}
+    type: "DELETE"
+  })
+  $("#" + id ).remove();
+};
 
 // Ensure the page is loaded before beginning
 $(document).ready(function() {
