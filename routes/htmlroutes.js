@@ -1,12 +1,13 @@
 // **********************************
 // ********** DEPENDENCIES **********
 // **********************************
-var htmlController = require("../controllers/htmlcontroller.js");
+const htmlController = require("../controllers/htmlcontroller.js");
 
 // ***************************
 // ********** ROUTES *********
 // ***************************
-module.exports = function(app) {
+module.exports = function (app) {
+
   // ********************************
   // ********** GET Routes **********
   // ********************************
@@ -23,4 +24,5 @@ module.exports = function(app) {
   app.post('/notes', htmlController.postNote); // Route to post a note to a specific article
   app.delete('/delete', htmlController.delete); // Route to delete all scraped articles
   app.delete('/deletenote/:id', htmlController.deletenote); // Route to delete a specific note
+
 };

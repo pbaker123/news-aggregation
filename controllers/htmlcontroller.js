@@ -13,52 +13,59 @@ module.exports = {
 // *******************************************
 // ********** GET Route Controllers **********
 // *******************************************
-	home: (req, res) => { //works
+	home: (req, res) => { //Works
 		db.Article
 			.find()
-			.then(dbArticle => res.render("home", { article: dbArticle }))
-			.catch(err => res.json(err));
+			.then((dbArticle) => res.render("home", { article: dbArticle }))
+			.catch((err) => res.json(err));	
 	},
 
-	scrape: (req, res) => { 
+	scrape: (req, res) => {
 	  request('https://www.reuters.com/news/us', (err, res, body) => {
-	  	if (err) return console.log('upload failed:', err);		  
+	  	if (err) {
+				return console.log('upload failed:', err);
+			}		  
 		  const $ = cheerio.load(body);
 		  $("div.FeedItem_item")
-		  	.each(function(i, element) {
-			  	var result = {
-			  		title: $(this).find("h2.FeedItemHeadline_headline").children("a").text(),
-			  		url: $(this).find("h2.FeedItemHeadline_headline").children("a").attr().href,
-			  		summary: $(this).find("p.FeedItemLede_lede").text()
-			  	}
+		  	.each(function (i, element) {
+			  	const result = {
+			  		title: $(this)
+			  			.find("h2.FeedItemHeadline_headline")
+							.children("a")
+							.text(),
+			  		url: $(this)
+			  			.find("h2.FeedItemHeadline_headline")
+							.children("a")
+							.attr()
+							.href,
+			  		summary: $(this)
+			  			.find("p.FeedItemLede_lede")
+							.text()
+			  	};
 		  		db.Article
 		  			.find({ 
 		  				url: result.url 
 		  			})
-		  			.then(function(dbArticle) {
+		  			.then((dbArticle) => {
 		  				if (dbArticle.length === 0) {
 		  					db.Article
 		  						.create(result)
-	      					.catch(function(err) {
-			        			res.json(err);
-	      					});
-	      			};
-	      		})
-	      		.catch(function(err) {
-				      res.json(err); // If an error occurred, send it to the client
-				    });
-		  	});
+	      					.catch((err) => res.json(err)); 			
+							};
+						})
+	      		.catch((err) => res.json(err));   	
+				});
 		});
 		res.send("scraped");
 	},
 
-	saved: (req, res) => { //works
+	saved: (req, res) => { //Works
 		db.Article
 			.find({ 
 				saved: true 
 			})
-			.then(dbArticle => res.render("saved", { article: dbArticle }))
-			.catch(err => res.json(err));
+			.then((dbArticle) => res.render("saved", { article: dbArticle }))
+			.catch((err) => res.json(err));
 	},
 
 	notes: (req, res) => {
@@ -67,8 +74,8 @@ module.exports = {
 				"_id": req.params.id 
 			})
 			.populate("notes")
-			.then(dbArticle => res.json(dbArticle[0].notes))
-	  	.catch(err => res.json(err));
+			.then((dbArticle) => res.json(dbArticle[0].notes))
+	  	.catch((err) => res.json(err));	
 	},
 
 // ********************************************
@@ -85,27 +92,38 @@ module.exports = {
 					new: true 
 				})
 			.then(() => res.redirect("/"))
-			.catch(err => res.json(err));
+			.catch((err) => res.json(err));
 	},
 
-	postNote: function(req, res) {
-		db.Note.create( { note: req.body.note }).then(function(dbNote) {
-	    return db.Article.findOneAndUpdate({ _id: req.body.id }, { $push: { notes: dbNote._id } }, { new: true });
-	  }).catch(function(err) {
-	    res.json(err);
-	  });
-	  res.send("added")
+	postNote (req, res) {
+		db.Note
+			.create({ 
+				note: req.body.note 
+			})
+			.then((dbNote) => {
+				db.Article
+					.findOneAndUpdate({ 
+						_id: req.body.id 
+						}, { 
+							$push: { 
+								notes: dbNote._id 
+							} }, { 
+						new: true 
+					})
+					.catch((err) => res.json(err))	  
+			});
+	  res.send("added");
 	},
 
 // **********************************************
 // ********** DELETE Route Controllers **********
 // **********************************************
-	delete: res => { //works
+	delete: (res) => {
 		db.Article
 			.remove()
 			.exec()
 			.then(() => res.render("home"))
-			.catch(err => res.json(err));
+			.catch((err) => res.json(err));
 	},
 
 	deletenote: (req, res) => {
@@ -114,6 +132,6 @@ module.exports = {
 				"_id": req.params.id 
 			})
 			.then(() => res.status(200))
-			.catch(err => res.json(err));
+			.catch((err) => res.json(err));
 	}
 };
